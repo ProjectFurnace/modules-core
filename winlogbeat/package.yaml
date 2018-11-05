@@ -1,0 +1,10 @@
+name: winlogbeat
+description: Parses and normalises winlogbeat logs
+type: ingest
+class:
+  - ipv4
+outputs:
+  - ipsrc
+  - ipdst
+normalizer:
+  runtime: nodejs8.10

@@ -1,4 +1,4 @@
-id: my-module
+id: passthrough
 version: 1.0.0
 config-groups:
   default:

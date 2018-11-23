@@ -21,7 +21,17 @@ function unpackAndProcess(events) {
 
       // we do not want to send control messages
       if (event.messageType !== 'CONTROL_MESSAGE') {
-        outputEvents.push(handler(event));
+        if (event.logEvents) {
+          event.logEvents.forEach((logline) => {
+            const flattenedLogline = {
+              id: logline.id,
+              timestamp: logline.timestamp,
+              message: logline.message,
+              ...logline.extractedFields,
+            };
+            outputEvents.push(handler(flattenedLogline));
+          });
+        }
       }
     }
   });

@@ -1,4 +1,4 @@
-const eventutils = require('eventutils');
+const eventutils = require('@project-furnace/eventutils');
 
 function normalize(event, vpcflMapping) {
   // get the data from the protocol number specified in protocolField

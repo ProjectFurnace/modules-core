@@ -3,7 +3,7 @@ const path = require('path');
 const csvtomap = require('csvtomap');
 const logic = require('./logic');
 
-const vpcflMapping = csvtomap.createKeyValue(path.resolve(__dirname, 'data/mapping.csv'), ' => ');
+const vpcflMapping = csvtomap.createKeyValue(path.resolve(__dirname, 'data/mapping.spec'), ' => ');
 
 function handler(event) {
   return logic.normalize(event, vpcflMapping);

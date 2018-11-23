@@ -1,9 +1,9 @@
 const zlib = require('zlib');
 const path = require('path');
-const csvtomap = require('csvtomap');
+const csvtomap = require('@project-furnace/csvtomap');
 const logic = require('./logic');
 
-const vpcflMapping = csvtomap.createKeyValue(path.resolve(__dirname, 'data/mapping.spec'), ' => ');
+const vpcflMapping = csvtomap.createKeyValue(path.resolve(__dirname, 'mapping.spec'), ' => ');
 
 function handler(event) {
   return logic.normalize(event, vpcflMapping);

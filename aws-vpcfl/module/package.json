@@ -7,9 +7,9 @@
     "test": "jest"
   },
   "dependencies": {
-    "csvtomap": "^1.0.0",
-    "simplejsonutils": "^1.0.0",
-    "eventutils": "^1.0.0"
+    "@project-furnace/csvtomap": "^0.1.0",
+    "@project-furnace/simplejsonutils": "^0.1.0",
+    "@project-furnace/eventutils": "^0.1.0"
   },
   "keywords": ["aws","vpc","flow logs"],
   "author": "Guillem Mateos <guillem.mateos@***REMOVED***>",

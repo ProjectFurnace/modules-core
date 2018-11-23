@@ -1,5 +1,5 @@
 // tests for aws-vpcfl
-const mod = require('./index');
+const mod = require('../index');
 
 describe('AWS VPC Flow logs normalizer', () => {
   describe('Normalize when input event has valid data', () => {

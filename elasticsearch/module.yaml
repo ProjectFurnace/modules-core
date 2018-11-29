@@ -1,5 +1,6 @@
 id: elasticsearch
 version: 1.0.0
+runtime: nodejs8.10
 category: sink
 core-version:
   min: 0.1.0

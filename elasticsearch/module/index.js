@@ -1,4 +1,5 @@
 const elasticsearch = require('elasticsearch');
+const AWS = require('aws-sdk');
 
 const connParams = {
   host: process.env.SERVER,
@@ -9,6 +10,7 @@ if (process.env.IS_AWS) {
   // eslint-disable-next-line global-require
   const httpaws = require('http-aws-es');
   connParams.connectionClass = httpaws;
+  connParams.awsConfig = new AWS.Config({ region: process.env.SERVER.split('.')[1] });
 }
 
 if (process.env.DEBUG) {
@@ -34,7 +36,7 @@ async function unpackAndProcess(events) {
       // keep track of the batch size and increment the batch num if we have already enough
       // events in that batch
       currentBatchSize += 1;
-      if (currentBatchSize >= process.env.BATCH) {
+      if (currentBatchSize >= process.env.BATCH && currentBatchSize < events.length) {
         batchNum += 1;
         currentBatchSize = 0;
         outputEvents[batchNum] = [];

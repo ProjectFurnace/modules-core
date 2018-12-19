@@ -30,17 +30,17 @@ async function unpackAndProcess(events) {
   // create array with the events we want to send in the format expected by ES bulk request
   events.forEach((elem) => {
     if (elem.kinesis && elem.kinesis.data) {
+      if (currentBatchSize >= process.env.BATCH) {
+        batchNum += 1;
+        currentBatchSize = 0;
+        outputEvents[batchNum] = [];
+      }
       const action = { index: { _index: process.env.INDEX, _type: process.env.TYPE } };
       const event = JSON.parse(Buffer.from(elem.kinesis.data, 'base64'));
       outputEvents[batchNum].push(action, event);
       // keep track of the batch size and increment the batch num if we have already enough
       // events in that batch
       currentBatchSize += 1;
-      if (currentBatchSize >= process.env.BATCH && currentBatchSize < events.length) {
-        batchNum += 1;
-        currentBatchSize = 0;
-        outputEvents[batchNum] = [];
-      }
     }
   });
   // if we have events on our array, send them to elastic

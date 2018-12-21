@@ -3,7 +3,13 @@ const simplejson = require('@project-furnace/simplejsonutils');
 function mapProtocol(event, lookup, protocolField) {
   // get the data from the protocol number specified in protocolField
   try {
-    const protocolNum = simplejson.getPath(event, protocolField);
+    let protocolNum = simplejson.getPath(event, protocolField);
+
+    // make sure protocolNum is a number
+    if (typeof protocolNum !== 'number') {
+      protocolNum = parseInt(protocolNum, 10);
+    }
+
     const protocolData = lookup.get(protocolNum);
 
     if (protocolData) {

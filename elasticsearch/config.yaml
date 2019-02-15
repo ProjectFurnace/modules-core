@@ -17,7 +17,7 @@ config-groups:
       default: 'default'
       visible: true
       validator: '[A-z\._]+'
-      help: This is just a testing parameter
+      help: This index in which to store data
     type:
       label: The type of document for Elasticsearch
       mandatory: true
@@ -42,7 +42,7 @@ config-groups:
       visible: true
       validator: 'true|false'
       help: Whether the Elasticsearch cluster we want to connect to is in AWS or not
-    batch:
+    timeout:
       label: 'Connection timeout (ms)'
       mandatory: true
       type: single

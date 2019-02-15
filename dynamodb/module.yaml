@@ -1,0 +1,15 @@
+id: dynamodb
+version: 1.0.0
+runtime: nodejs8.10
+category: sink
+core-version:
+  min: 0.1.0
+  max: 0.3.1
+meta:
+  name: DynamoDB Sink
+  description: This module outputs data to DynamoDB
+  keywords: [aws,dynamodb]
+  website: https://furnace.org
+author:
+  name: Furnace Collective
+license: MIT

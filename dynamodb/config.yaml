@@ -1,0 +1,36 @@
+id: dynamodb
+version: 1.0.0
+config-groups:
+  default:
+    endpoint:
+      label: DynamoDB endpoint
+      mandatory: true
+      type: single
+      default: 'http://localhost:8000'
+      visible: true
+      validator: '[A-z0-9\._]+'
+      help: 'Specify the DynamoDB endpoint using the http[s]://host:port format'
+    table:
+      label: The table to send data to
+      mandatory: true
+      type: single
+      default: 'default'
+      visible: true
+      validator: '[A-z\._]+'
+      help: Specify the table to store data into
+    region:
+      label: The region where the DynamoDB is
+      mandatory: true
+      type: single
+      default: 'default'
+      visible: true
+      validator: '[A-z\._]+'
+      help: The region of the DynamoDB you want to write to
+    batch:
+      label: Maximum batch size
+      mandatory: true
+      type: single
+      default: 10
+      visible: true
+      validator: '[0-9]+'
+      help: The maximum number of events to batch

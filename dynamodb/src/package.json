@@ -1,0 +1,19 @@
+{
+  "name": "dynamodb",
+  "version": "1.0.0",
+  "description": "Furnace module to output events to DynamoDB",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "http-aws-es": "^6.0.0"
+  },
+  "keywords": [
+    "aws",
+    "dynamodb"
+  ],
+  "author": "Guillem Mateos <guillem.mateos@furnace.org>",
+  "license": "Apache-2.0",
+  "homepage": "https://furnace.org"
+}

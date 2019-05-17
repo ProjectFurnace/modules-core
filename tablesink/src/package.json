@@ -1,0 +1,21 @@
+{
+  "name": "tablesink",
+  "version": "1.0.0",
+  "description": "Furnace module to output events to a generic Table sink",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "@google-cloud/bigquery": "^3.0.0",
+    "azure-storage": "^2.10.3"
+  },
+  "keywords": [
+    "furnace",
+    "table",
+    "sink"
+  ],
+  "author": "Guillem Mateos <guillem.mateos@furnace.org>",
+  "license": "Apache-2.0",
+  "homepage": "https://furnace.org"
+}

@@ -8,5 +8,6 @@ Right now those modules include:
 - **elasticsearch:** en Elasticsearch sink using the HTTP/S protocol
 - **lookup-port:** enrich event with port name/description based on port number
 - **lookup-protocol:** enrich event with protocol name based on its number
+- **tablesink:** cross-cloud table sink (dynamodb/bigtable/azure table storage)
 
 More modules will be added as the project matures.

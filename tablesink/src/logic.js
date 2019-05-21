@@ -1,11 +1,8 @@
-const AWS = require('aws-sdk');
-const azureStorage = require('azure-storage');
-const BigQuery = require('@google-cloud/bigquery');
-
 const tableName = `${process.env.STACK_NAME}-${process.env.TABLE}-${process.env.STACK_ENV}`
 
 // create instance of the client based on which cloud we are on
 if (process.env.AWS_REGION) {
+  const AWS = require('aws-sdk');
   var documentClient = new AWS.DynamoDB.DocumentClient();
 
   if (process.env.REGION) {
@@ -19,13 +16,16 @@ if (process.env.AWS_REGION) {
     });
   }
 } else if (process.env.GCP_PROJECT) {
+  const {BigQuery} = require('@google-cloud/bigquery');
   const bigquery = new BigQuery();
-  const dataset = bigquery.dataset(`${process.env.STACK_NAME}-${process.env.TABLE}_dataset-${process.env.STACK_ENV}`);
-  var table = dataset.table(tableName);
+  const dataset = bigquery.dataset(`${process.env.STACK_NAME}_${process.env.TABLE}_dataset_${process.env.STACK_ENV}`);
+  var table = dataset.table(tableName.replace(/-/g, '_'));
 } else {
+  var azureStorage = require('azure-storage');
   const azConnectionString = ( process.env.AZ_CONNECTIONSTRING != '' ? process.env.AZ_CONNECTIONSTRING : process.env.AzureWebJobsStorage );
     
-  var tableService = azureStorage.createTableService(azConnectionString);
+  //var tableService = azureStorage.createTableService(azConnectionString);
+  var tableService = azureStorage.createTableService();
 }
 
 function translate(key, value) {
@@ -51,22 +51,32 @@ function convertToDescriptor(obj, primaryKey, partitionKey) {
   // Copy all properties the user provides over.  Then supply the appropriate partition
   // and row.  Do not copy over the primary key the user supplies. It will be place in
   // RowKey instead.
-  const descriptor = {
+  /*const descriptor = {
     ...obj,
+    PartitionKey: partitionKey,
+    RowKey: "",
+  };*/
+
+  const descriptor = {
     PartitionKey: partitionKey,
     RowKey: "",
   };
 
-  for (const key in descriptor) {
+  for (const key in obj) {
+    if (key != primaryKey)
+      descriptor[key] = translate(key, obj[key]);
+  };
+
+  /*for (const key in descriptor) {
     if (descriptor.hasOwnProperty(key)) {
-      descriptor[key] = translate(key, descriptor[key], azureStorage);
+      descriptor[key] = translate(key, descriptor[key]);
     }
-  }
+  }*/
 
   return descriptor;
 }
 
-function storeEvent(event) {
+function storeEvent(event, context) {
   // AWS
   if (process.env.AWS_REGION) {
     var params = {
@@ -85,12 +95,13 @@ function storeEvent(event) {
     return table.insert(event);
   // AZURE
   } else {
-    const key = event[process.env.AZ_PK];
+    const pk = process.env.AZ_PK || 'Id';
+    const key = event[pk];
     if (!key) {
-        throw new Error(`event must have a value specified for [${process.env.AZ_PK}]`);
+        throw new Error(`event must have a value specified for [${pk}]`);
     }
   
-    const descriptor = convertToDescriptor(event, process.env.AZ_PK, key);
+    const descriptor = convertToDescriptor(event, pk, key);
   
     return new Promise((resolve, reject) => {
       tableService.insertOrReplaceEntity(tableName.replace(/[^A-Za-z0-9]/g, ""), descriptor, (err, result) => {

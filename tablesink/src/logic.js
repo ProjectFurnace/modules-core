@@ -29,31 +29,36 @@ if (process.env.AWS_REGION) {
 function translate(key, value) {
   const entGen = azureStorage.TableUtilities.entityGenerator;
   if (Buffer.isBuffer(value)) {
-      return entGen.Binary(value);
+    return entGen.Binary(value);
   }
 
   if (value instanceof Date) {
-      return entGen.DateTime(value);
+    return entGen.DateTime(value);
   }
 
   switch (typeof value) {
-      case "string": return entGen.String(value);
-      case "number": return entGen.Double(value);
-      case "boolean": return entGen.Boolean(value);
-      default:
-          throw new Error(`value[${key}] was not a supported type.  Supported types are: string | number | boolean | Date | Buffer`);
+    case "string": return entGen.String(value);
+    case "number": return entGen.Double(value);
+    case "boolean": return entGen.Boolean(value);
+    default:
+      throw new Error(`value[${key}] with type ${(typeof value)}is not supported.  Supported types are: string | number | boolean | Date | Buffer`);
   }
 }
 
-function convertToDescriptor(obj, primaryKey, partitionKey) {
+function convertToDescriptor(obj, primaryKey, partitionKey, context) {
   const descriptor = {
     PartitionKey: partitionKey,
     RowKey: '',
   };
 
   for (const key in obj) {
-    if (key != primaryKey)
-      descriptor[key] = translate(key, obj[key]);
+    // avoid inserting nulls but report them
+    if (obj[key] != null) {
+      if (key != primaryKey)
+        descriptor[key] = translate(key, obj[key]);
+    } else {
+      context.log(`Warning: avoiding conversion of null value in field ${key}`);
+    }
   };
 
   return descriptor;
@@ -95,7 +100,7 @@ async function storeEvent(event, context) {
         throw new Error(`event must have a value specified for [${pk}]`);
     }
   
-    const descriptor = convertToDescriptor(event, pk, key);
+    const descriptor = convertToDescriptor(event, pk, key, context);
   
     try {
       const output = await new Promise((resolve, reject) => {

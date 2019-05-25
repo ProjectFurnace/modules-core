@@ -16,10 +16,15 @@ if (process.env.AWS_REGION) {
     });
   }
 } else if (process.env.GCP_PROJECT) {
-  const {BigQuery} = require('@google-cloud/bigquery');
+  /*const {BigQuery} = require('@google-cloud/bigquery');
   const bigquery = new BigQuery();
   const dataset = bigquery.dataset(`${process.env.STACK_NAME}_${process.env.TABLE}_dataset_${process.env.STACK_ENV}`);
-  var table = dataset.table(tableName.replace(/-/g, '_'));
+  var table = dataset.table(tableName.replace(/-/g, '_'));*/
+  const Firestore = require('@google-cloud/firestore');
+  var firestore = new Firestore({
+    projectId: process.env.GCP_PROJECT,
+    timestampsInSnapshots: true,
+});
 } else {
   var azureStorage = require('azure-storage');
   const azConnectionString = ( process.env.AZ_CONNECTIONSTRING != '' ? process.env.AZ_CONNECTIONSTRING : process.env.AzureWebJobsStorage );
@@ -76,7 +81,7 @@ function convertToDescriptor(obj, primaryKey, partitionKey) {
   return descriptor;
 }
 
-function storeEvent(event, context) {
+async function storeEvent(event, context) {
   // AWS
   if (process.env.AWS_REGION) {
     var params = {
@@ -91,8 +96,22 @@ function storeEvent(event, context) {
       });
     });
   // GCP
-  } else if (process.env.GCP_PROJECT) {    
-    return table.insert(event);
+  } else if (process.env.GCP_PROJECT) {
+    return firestore.collection(tableName).add(event);
+    /*table.insert(event).then(function(data) {
+      // All rows inserted successfully
+      var apiResponse = data[0]
+      return apiResponse;
+    }).catch(function(err) {
+      if (err.name === 'PartialFailureError') {
+        // Insert partially, or entirely failed
+      } else {
+        // `err` could be a DNS error, a rate limit error, an auth error, etc.
+        console.log(err)
+        return;
+      }
+    })*/
+    //return table.insert(event);
   // AZURE
   } else {
     const pk = process.env.AZ_PK || 'Id';

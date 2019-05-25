@@ -7,7 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@google-cloud/bigquery": "^3.0.0",
+    "@google-cloud/firestore": "^2.0.0",
     "azure-storage": "^2.10.3"
   },
   "keywords": [

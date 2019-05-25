@@ -89,29 +89,26 @@ async function storeEvent(event, context) {
       Item: event
     };
     
-    return new Promise((resolve, reject) => {
-      documentClient.put(params, function(err, data) {
-        if (err) return reject(err);
-        resolve(data);
+    try {
+      const output = await new Promise((resolve, reject) => {
+        documentClient.put(params, function(err, data) {
+          if (err) return reject(err);
+          resolve(data);
+        });
       });
-    });
+
+      console.log('Document added to DB');
+    } catch(err) {
+      console.log(err);
+    }
   // GCP
   } else if (process.env.GCP_PROJECT) {
-    return firestore.collection(tableName).add(event);
-    /*table.insert(event).then(function(data) {
-      // All rows inserted successfully
-      var apiResponse = data[0]
-      return apiResponse;
-    }).catch(function(err) {
-      if (err.name === 'PartialFailureError') {
-        // Insert partially, or entirely failed
-      } else {
-        // `err` could be a DNS error, a rate limit error, an auth error, etc.
-        console.log(err)
-        return;
-      }
-    })*/
-    //return table.insert(event);
+    try {
+      const documentReference = await firestore.collection(tableName).add(event);
+      console.log(`Added document with ID: ${documentReference.id}`);
+    } catch(err) {
+      console.log(err);
+    }
   // AZURE
   } else {
     const pk = process.env.AZ_PK || 'Id';
@@ -122,12 +119,17 @@ async function storeEvent(event, context) {
   
     const descriptor = convertToDescriptor(event, pk, key);
   
-    return new Promise((resolve, reject) => {
-      tableService.insertOrReplaceEntity(tableName.replace(/[^A-Za-z0-9]/g, ""), descriptor, (err, result) => {
-        if (err) return reject(err);
-        resolve(result);
+    try {
+      const output = await new Promise((resolve, reject) => {
+        tableService.insertOrReplaceEntity(tableName.replace(/[^A-Za-z0-9]/g, ""), descriptor, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
+        });
       });
-    });
+      context.log('Added entity', output);
+    } catch(err) {
+      context.log(err);
+    }
   }
 }
 

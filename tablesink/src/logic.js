@@ -16,20 +16,13 @@ if (process.env.AWS_REGION) {
     });
   }
 } else if (process.env.GCP_PROJECT) {
-  /*const {BigQuery} = require('@google-cloud/bigquery');
-  const bigquery = new BigQuery();
-  const dataset = bigquery.dataset(`${process.env.STACK_NAME}_${process.env.TABLE}_dataset_${process.env.STACK_ENV}`);
-  var table = dataset.table(tableName.replace(/-/g, '_'));*/
   const Firestore = require('@google-cloud/firestore');
   var firestore = new Firestore({
-    projectId: process.env.GCP_PROJECT,
-    timestampsInSnapshots: true,
+    projectId: process.env.GCP_PROJECT
 });
 } else {
   var azureStorage = require('azure-storage');
-  const azConnectionString = ( process.env.AZ_CONNECTIONSTRING != '' ? process.env.AZ_CONNECTIONSTRING : process.env.AzureWebJobsStorage );
-    
-  //var tableService = azureStorage.createTableService(azConnectionString);
+
   var tableService = azureStorage.createTableService();
 }
 
@@ -53,30 +46,15 @@ function translate(key, value) {
 }
 
 function convertToDescriptor(obj, primaryKey, partitionKey) {
-  // Copy all properties the user provides over.  Then supply the appropriate partition
-  // and row.  Do not copy over the primary key the user supplies. It will be place in
-  // RowKey instead.
-  /*const descriptor = {
-    ...obj,
-    PartitionKey: partitionKey,
-    RowKey: "",
-  };*/
-
   const descriptor = {
     PartitionKey: partitionKey,
-    RowKey: "",
+    RowKey: '',
   };
 
   for (const key in obj) {
     if (key != primaryKey)
       descriptor[key] = translate(key, obj[key]);
   };
-
-  /*for (const key in descriptor) {
-    if (descriptor.hasOwnProperty(key)) {
-      descriptor[key] = translate(key, descriptor[key]);
-    }
-  }*/
 
   return descriptor;
 }

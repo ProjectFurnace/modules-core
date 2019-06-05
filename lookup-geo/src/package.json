@@ -9,7 +9,7 @@
   "author": "Dave Mound <david.mound@***REMOVED***>",
   "license": "Apache-2.0",
   "dependencies": {
-    "@project-furnace/simplejsonutils": "^0.1.1",
+    "@project-furnace/simplejsonutils": "^0.1.2",
     "maxmind": "^2.11.0",
     "path": "^0.12.7",
     "private-ip": "^1.0.5"

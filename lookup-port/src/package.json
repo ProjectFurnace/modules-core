@@ -7,8 +7,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "@project-furnace/csvtomap": "^0.1.0",
-    "@project-furnace/simplejsonutils": "^0.1.0"
+    "@project-furnace/csvtomap": "^0.1.4",
+    "@project-furnace/simplejsonutils": "^0.1.2"
   },
   "devDependencies": {
     "jest": "^23.6.0"

@@ -18,7 +18,7 @@
     "aws-sdk": "^2.375.0",
     "bluebird": "^3.5.3",
     "promise-memoize": "^1.2.1",
-    "@project-furnace/simplejsonutils": "^0.1.1",
+    "@project-furnace/simplejsonutils": "^0.1.2",
     "uuid": "^3.3.2"
   },
  "homepage": "https://projectfurnace.io"

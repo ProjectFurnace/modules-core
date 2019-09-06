@@ -1,0 +1,21 @@
+{
+  "name": "lookup",
+  "version": "1.0.0",
+  "description": "Furnace module to lookup values from a key-value store",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "@google-cloud/firestore": "^2.0.0",
+    "azure-storage": "^2.10.3",
+    "@project-furnace/simplejsonutils": "^0.1.2"
+  },
+  "keywords": [
+    "furnace",
+    "lookup"
+  ],
+  "author": "Guillem Mateos <guillem.mateos@furnace.org>",
+  "license": "Apache-2.0",
+  "homepage": "https://furnace.org"
+}

@@ -1,0 +1,60 @@
+id: tablesink
+version: 1.0.0
+config-groups:
+  default:
+    lookup_field:
+      label: The field with the value to lookup for
+      mandatory: true
+      type: single
+      default: 'lookup_field'
+      visible: true
+      validator: '[A-z0-9\._]+'
+      help: 'Specify the field with the value you want to lookup for'
+    output_lookup_field:
+      label: What field name to put the output of the lookup data into
+      mandatory: false
+      type: single
+      default: 'lookup_field_output'
+      visible: true
+      validator: '[A-z\_]+'
+      help: 'Specify the field where you want the output of the lookup to be saved to'
+    endpoint:
+      label: Endpoint
+      mandatory: false
+      type: single
+      default: 'http://localhost:8000'
+      visible: true
+      validator: '[A-z0-9\._]+'
+      help: 'Specify the DynamoDB endpoint using the http[s]://host:port format'
+    table:
+      label: The table to send data to
+      mandatory: true
+      type: single
+      default: 'default'
+      visible: true
+      validator: '[A-z\._]+'
+      help: Specify the table to store data into
+    region:
+      label: The region where the DynamoDB is
+      mandatory: false
+      type: single
+      default: 'default'
+      visible: true
+      validator: '[A-z\._]+'
+      help: The region of the DynamoDB you want to write to
+    az_connectionstring:
+      label: Azure storage connection string
+      mandatory: false
+      type: single
+      default: ''
+      visible: true
+      validator: '[A-z\._]+'
+      help: Azure storage connection string
+    az_pk:
+      label: Azure primary key
+      mandatory: false
+      type: single
+      default: ''
+      visible: true
+      validator: '[A-z\._]+'
+      help: Azure primary key

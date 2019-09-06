@@ -1,0 +1,20 @@
+{
+  "name": "tablesink",
+  "version": "1.0.0",
+  "description": "Furnace module to output events to a generic Table sink",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "twilio": "^3.32.0"
+  },
+  "keywords": [
+    "furnace",
+    "table",
+    "sink"
+  ],
+  "author": "Guillem Mateos <guillem.mateos@furnace.org>",
+  "license": "Apache-2.0",
+  "homepage": "https://furnace.org"
+}

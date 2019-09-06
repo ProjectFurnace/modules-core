@@ -1,0 +1,36 @@
+id: twilio-sms
+version: 1.0.0
+config-groups:
+  default:
+    to_field:
+      label: The field that has the destination number
+      mandatory: true
+      type: single
+      default: 'to'
+      visible: true
+      validator: '[A-z\._]+'
+      help: Specify the table to store data into
+    number_from:
+      label: Sender number
+      mandatory: true
+      type: single
+      default: ''
+      visible: true
+      validator: '[\+0-9]+'
+      help: The number the message is being sent from in E.164 format
+    account_sid:
+      label: Twilio account SID
+      mandatory: true
+      type: single
+      default: ''
+      visible: true
+      validator: '[A-z0-9]+'
+      help: Twilio account SID
+    auth_token:
+      label: Twilio auth Token
+      mandatory: true
+      type: password
+      default: ''
+      visible: true
+      validator: '[A-z0-9]+'
+      help: Twilio auth Token

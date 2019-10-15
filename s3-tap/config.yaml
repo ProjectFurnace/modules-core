@@ -1,0 +1,4 @@
+id: s3-tap
+version: 1.0.0
+config-groups:
+  default:

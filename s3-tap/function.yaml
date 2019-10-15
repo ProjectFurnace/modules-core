@@ -1,0 +1,15 @@
+id: s3-tap
+version: 1.0.0
+runtime: nodejs8.10
+category: tap
+core-version:
+  min: 0.1.0
+  max: 0.3.1
+meta:
+  name: S3 tap
+  description: This module works as a tap for s3 sources
+  keywords: [aws,s3]
+  website: https://furnace.org
+author:
+  name: Furnace Collective
+license: MIT

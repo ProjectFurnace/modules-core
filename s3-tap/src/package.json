@@ -1,0 +1,16 @@
+{
+  "name": "s3-tap",
+  "version": "1.0.0",
+  "description": "Furnace tap modules for s3 sources",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "aws",
+    "s3"
+  ],
+  "author": "Guillem Mateos <guillem.mateos@furnace.org>",
+  "license": "Apache-2.0",
+  "homepage": "https://furnace.org"
+}
